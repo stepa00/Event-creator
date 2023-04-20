@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="static/styles.css">
+    <title>Event-creator {% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <nav class="topnav">
+        <a class="active" href="/">Form</a>
+        <a href="#news">Events</a>
+        <a href="#contact">Settings</a>
+        <a href="#about">Logout</a>
+    </nav>
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+    <footer>
+      <p>Copyright © 2023</p>
+    </footer>
+  </body>
+</html>
