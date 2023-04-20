@@ -6,12 +6,19 @@
     <title>Event-creator {% block title %}{% endblock %}</title>
   </head>
   <body>
-    <nav class="topnav">
-        <a class="active" href="/">Form</a>
-        <a href="#news">Events</a>
+    {% if session["user_id"] %}
+      <nav class="topnav">
+        <a class="active" href="/">Create event</a>
+        <a href="#news">History</a>
         <a href="#contact">Settings</a>
         <a href="#about">Logout</a>
-    </nav>
+      </nav>
+    {% else %}
+      <nav class="topnav">
+        <a class="active" href="/login">Log In</a>
+        <a href="/register">Register</a>
+      </nav>
+    {% endif %}
     <main>
         {% block main %}{% endblock %}
     </main>
