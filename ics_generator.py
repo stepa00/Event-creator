@@ -2,10 +2,14 @@
 """
 Creates ics file with the event which parameters should be inserted
 """
-
+# Constant
+event = {}
+event['dtstart'] = '20080212'
+event['dtend'] = '20080213'
+event['dtstamp'] = '20150421T141403'
 
 # Create ics file
-def generate_file():
+def generate_file(event):
 
     # Create a ics file
     f = open("event.ics", mode="w")
@@ -13,12 +17,15 @@ def generate_file():
     # Beginning of the file
     f.write('BEGIN:VCALENDAR\n'
             'VERSION:2.0\n'
-            'PRODID:-//ZContent.net//Zap Calendar 1.0//EN\n'
+            'PRODID:Event-creator\n'
             'CALSCALE:GREGORIAN\n'
             'METHOD:PUBLISH\n'
             'BEGIN:VEVENT\n')
     
-    #TODO insert data
+    #TODO insert data required for calendar to work
+    f.write(f'DTSTART:{event["dtstart"]}\n'
+            f'DTEND:{event["dtend"]}\n'
+            f'DTSTAMP:{event["dtstamp"]}\n')
     
     f.write('END:VEVENT\n'
             'END:VCALENDAR')
@@ -30,4 +37,4 @@ def generate_file():
         
 
 # Generate ics file
-generate_file()
+generate_file(event)
