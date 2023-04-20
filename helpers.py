@@ -19,3 +19,8 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# Check password strength
+def password_strength(password):
+    #TODO: check password strength according to 
+    # https://learn.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/password-must-meet-complexity-requirements
+    return True

@@ -1,8 +1,9 @@
+import sqlite3 
 
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-import sqlite3 
+from helpers import password_strength
 
 
 # Configure application
@@ -16,7 +17,7 @@ Session(app)
 
 
 # Configure sqlite3 database
-connection = sqlite3.connect("calendars.db")
+connection = sqlite3.connect("calendars.db", check_same_thread=False)
 cursor = connection.cursor()
 
 
@@ -40,13 +41,54 @@ def index():
 @app.route("/login")
 def login():
     # TODO: create a login page
+    
     return render_template("login.html")
 
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    # TODO: create a register page
-    return render_template("register.html")
+    # Reached via GET
+    if request.method == "GET":
+        return render_template("register.html")
+    
+    # Reached via POST
+    else:
+        # TODO: create a register page
+        # Get the password from the form
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
+
+        # Check submited username
+        if not username:
+            # TODO: alert username wasn't submited
+            return render_template("register.html"), print("alert username wasn't submited")
+        
+        # Check username existance in database
+        cursor.execute("""SELECT * FROM users WHERE username = ?""", (username,))
+        rows = cursor.fetchall()
+        if rows:
+            # TODO: alert username already exists
+            return render_template("register.html"), print("alert: username already exists")
+
+        # Check password strength
+        if not password_strength(password):
+            # TODO: alert: password should include ...
+            return render_template("register.html"), print("alert: password is not strong")
+
+        # Check password conformation
+        if password != confirm_password:
+            # TODO: alert: password wasn't confirmed
+            return render_template("register.html"), print("alert: password wasn't confirmed")
+
+        # Hash the password and add to database
+        hashed_password = generate_password_hash(password)
+        cursor.execute("""INSERT INTO users (username, hash) VALUES (?, ?)""", (username, hashed_password))
+        connection.commit()
+
+        # Insert password into database
+        # TODO: go to login page
+        return render_template("register.html")
 
 
 @app.route("/history")
