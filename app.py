@@ -1,6 +1,6 @@
 import sqlite3 
 
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, get_flashed_messages
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import password_strength
@@ -47,6 +47,7 @@ def login():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    error = None
     # Reached via GET
     if request.method == "GET":
         return render_template("register.html")
@@ -61,32 +62,37 @@ def register():
 
         # Check submited username
         if not username:
-            # TODO: alert username wasn't submited
-            return render_template("register.html"), print("alert username wasn't submited")
+            error = "Enter username."
+            return render_template("register.html", error=error)
         
         # Check username existance in database
         cursor.execute("""SELECT * FROM users WHERE username = ?""", (username,))
         rows = cursor.fetchall()
         if rows:
-            # TODO: alert username already exists
-            return render_template("register.html"), print("alert: username already exists")
+            error = "Name already exists."
+            return render_template("register.html", error=error)
+        
+        # Check if password was entered
+        if not password:
+            error = "Enter password"
+            return render_template("register.html", error=error)
 
         # Check password strength
         if not password_strength(password):
-            # TODO: alert: password should include ...
-            return render_template("register.html"), print("alert: password is not strong")
-
+            # TODO: add discription
+            error = "Password should have:"
+            return render_template("register.html", error=error)
+        
         # Check password conformation
         if password != confirm_password:
-            # TODO: alert: password wasn't confirmed
-            return render_template("register.html"), print("alert: password wasn't confirmed")
+            error = "Passwords do not match"
+            return render_template("register.html", error=error)
 
         # Hash the password and add to database
         hashed_password = generate_password_hash(password)
         cursor.execute("""INSERT INTO users (username, hash) VALUES (?, ?)""", (username, hashed_password))
         connection.commit()
 
-        # Insert password into database
         # TODO: go to login page
         return render_template("register.html")
 

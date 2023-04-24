@@ -5,13 +5,18 @@
 {% endblock %}
 
 {% block main %}
+    <!-- Form for registration -->
     <form action="\register" method="post">
         <label for="username">Username</label>
-        <input type="text" autocomplete="off" id="username" name="username" placeholder="username" >
+        <input type="text" autocomplete="off" id="username" name="username" placeholder="username">
         <lable for="password">Password</lable>
-        <input type="password" autocomplete="off" id="password" name="password" placeholder="password" >
+        <input type="password" autocomplete="off" id="password" name="password" placeholder="password">
         <lable for="confirm_password">Confirm Password</lable>
-        <input type="password" autocomplete="off" id="confirm_password" name="confirm_password" placeholder="confirm password" >
+        <input type="password" autocomplete="off" id="confirm_password" name="confirm_password" placeholder="confirm password">
         <input type="submit" value="Register">
     </form>
+    <!-- Error output -->
+    {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
 {% endblock %}

@@ -5,3 +5,5 @@ unrelated/
 ics_output/
 
 __pycache__/
+
+/calendars.db

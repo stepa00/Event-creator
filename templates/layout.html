@@ -6,6 +6,7 @@
     <title>Event-creator {% block title %}{% endblock %}</title>
   </head>
   <body>
+    <!-- Navigation for loged in users -->
     {% if session["user_id"] %}
       <nav class="topnav">
         <a class="active" href="/">Create event</a>
@@ -14,12 +15,14 @@
         <a href="#about">Logout</a>
       </nav>
     {% else %}
+    <!-- Navigation for NOT loged in users -->
       <nav class="topnav">
         <a class="active" href="/login">Log In</a>
         <a href="/register">Register</a>
       </nav>
     {% endif %}
     <main>
+        <!-- Main part goes HERE -->
         {% block main %}{% endblock %}
     </main>
     <footer>
