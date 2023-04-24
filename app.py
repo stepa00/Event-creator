@@ -1,6 +1,6 @@
 import sqlite3 
 
-from flask import Flask, flash, redirect, render_template, request, session, get_flashed_messages
+from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import password_strength
@@ -74,18 +74,19 @@ def register():
         
         # Check if password was entered
         if not password:
-            error = "Enter password"
+            error = "Enter password."
             return render_template("register.html", error=error)
 
         # Check password strength
-        if not password_strength(password):
+        check = password_strength(password, username)
+        if check != True:
             # TODO: add discription
-            error = "Password should have:"
+            error = check
             return render_template("register.html", error=error)
         
         # Check password conformation
         if password != confirm_password:
-            error = "Passwords do not match"
+            error = "Passwords do not match."
             return render_template("register.html", error=error)
 
         # Hash the password and add to database
