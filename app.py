@@ -3,7 +3,7 @@ import sqlite3
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import password_strength
+from helpers import password_strength, login_required
 
 
 # Configure application
@@ -32,17 +32,52 @@ def after_request(response):
 
 
 @app.route("/")
-# @login_required
 def index():
     # TODO: create form for the event
     return render_template("index.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+
+    # Forget any user_id
+    session.clear()
+
+    error = None
     # TODO: create a login page
-    
-    return render_template("login.html")
+    # Reached via GET
+    if request.method == "GET":
+        return render_template("login.html")
+    # Reached via POST
+    else:
+        # Get input from the form
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # Check if username entered
+        if not username:
+            error = "Enter username."
+            return render_template("login.html", error=error)
+
+        # Check if password entered
+        if not password:
+            error = "Enter password."
+            return render_template("login.html", error=error)
+
+        # Check user exists and password
+        cursor.execute("""SELECT * FROM users WHERE username = ?""", (username,))
+        row = cursor.fetchone()
+        if not row:
+            error = "Username or password is incorrect."
+            return render_template("login.html", error=error)
+        if not check_password_hash(row[2], password):
+            error = "Username or password is incorrect."
+            return render_template("login.html", error=error)
+        
+        # Remember which user has logged in
+        session["user_id"] = row[0]
+
+        return redirect("/")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -60,15 +95,15 @@ def register():
         password = request.form.get("password")
         confirm_password = request.form.get("confirm_password")
 
-        # Check submited username
+        # Check if username entered
         if not username:
             error = "Enter username."
             return render_template("register.html", error=error)
         
         # Check username existance in database
         cursor.execute("""SELECT * FROM users WHERE username = ?""", (username,))
-        rows = cursor.fetchall()
-        if rows:
+        row = cursor.fetchone()
+        if row:
             error = "Name already exists."
             return render_template("register.html", error=error)
         
@@ -89,13 +124,14 @@ def register():
             error = "Passwords do not match."
             return render_template("register.html", error=error)
 
+
+        # ---Success--- 
         # Hash the password and add to database
         hashed_password = generate_password_hash(password)
         cursor.execute("""INSERT INTO users (username, hash) VALUES (?, ?)""", (username, hashed_password))
         connection.commit()
 
-        # TODO: go to login page
-        return render_template("register.html")
+        return redirect("/login")
 
 
 @app.route("/history")

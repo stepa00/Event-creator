@@ -1,9 +1,16 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Welcome to Event-creator
+    Event-creator
 {% endblock %}
 
 {% block main %}
-    Welcome to Event-creator!
+    {% if session["user_id"] %}
+        <!-- Create a form for the event -->
+        Main screen for LOGED IN users.
+    {% else %}
+        <!-- Create a starting page -->
+        Starting page!!!
+    {% endif %}
 {% endblock %}
+

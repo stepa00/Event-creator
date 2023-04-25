@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <!-- Form for login -->
+    <form action="\login" method="post">
+        <lable for="username">Username</lable>
+        <input type="text" autocomplete="off" id="username" name="username" placeholder="username">
+        <lable for="password">Password</lable>
+        <input type="password" autocomplete="off" id="password" name="password" placeholder="password">
+        <input type="submit" value="Log In">
+    </form>
+    <!-- Error output -->
+    {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+{% endblock %}

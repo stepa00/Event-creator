@@ -1,5 +1,3 @@
-
-# Something for @login_required function
 from functools import wraps
 
 from flask import redirect, render_template, request, session
