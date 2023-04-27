@@ -7,7 +7,18 @@
 {% block main %}
     {% if session["user_id"] %}
         <!-- Create a form for the event -->
-        Main screen for LOGED IN users.
+        Event form
+        <form action="\" method="post">
+            <lable for="subject">Subject</lable>
+            <input type="text" autocomplete="off" autofocus="off" placeholder="Subject">
+            <lable for="startdatetime">Start date</lable>
+            <input type="datetime-local" id="startdatetime" name="startdatetime">
+            <lable for="enddatetime">Start date</lable>
+            <input type="datetime-local" id="enddatetime" name="enddatetime">
+            <lable for="description">Description</lable>
+            <input type="text" autocomplete="off" autofocus="off" placeholder="Description">
+            <input type="submit" value="Submit">
+        </form>
     {% else %}
         <!-- Create a starting page -->
         Starting page!!!
