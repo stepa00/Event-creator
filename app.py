@@ -3,7 +3,7 @@ import sqlite3
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import password_strength, login_required
+from helpers import password_strength, login_required, generate_file
 
 
 # Configure application
@@ -31,11 +31,23 @@ def after_request(response):
     return response
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    # TODO: create form for the event
-    return render_template("index.html")
+    # Reached via GET
+    if request.method == "GET":
+        return render_template("index.html")
+    # Reached via POST
+    else:
+        # Get form inputs
+        event = {}
+        event["summary"] = request.form.get("summary")
+        event["dtstart"] = request.form.get("dtstart")
+        event["dtend"] = request.form.get("dtend")
+        event["description"] = request.form.get("description")
+        print(event)
+        generate_file(event)
 
+        return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

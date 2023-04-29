@@ -9,19 +9,30 @@
         <!-- Create a form for the event -->
         Event form
         <form action="\" method="post">
-            <lable for="subject">Subject</lable>
-            <input type="text" autocomplete="off" autofocus="off" placeholder="Subject">
-            <lable for="startdatetime">Start date</lable>
-            <input type="datetime-local" id="startdatetime" name="startdatetime">
-            <lable for="enddatetime">Start date</lable>
-            <input type="datetime-local" id="enddatetime" name="enddatetime">
+            <lable for="summary">Summary</lable>
+            <input type="text" autocomplete="off" autofocus="off" id="summary" name="summary" placeholder="Summary">
+            <lable for="dtstart">Start date</lable>
+            <input type="date" id="dtstart" name="dtstart">
+            <lable for="dtend">Start date</lable>
+            <input type="date" id="dtend" name="dtend">
             <lable for="description">Description</lable>
-            <input type="text" autocomplete="off" autofocus="off" placeholder="Description">
+            <input type="text" autocomplete="off" autofocus="off" id="description" name="description" placeholder="Description">
             <input type="submit" value="Submit">
         </form>
     {% else %}
         <!-- Create a starting page -->
         Starting page!!!
+        <form action="\" method="post">
+            <lable for="summary">Summary</lable>
+            <input type="text" autocomplete="off" autofocus="off" id="summary" name="summary" placeholder="Summary">
+            <lable for="dtstart">Start date</lable>
+            <input type="date" id="dtstart" name="dtstart">
+            <lable for="dtend">Start date</lable>
+            <input type="date" id="dtend" name="dtend">
+            <lable for="description">Description</lable>
+            <input type="text" autocomplete="off" autofocus="off" id="description" name="description" placeholder="Description">
+            <input type="submit" value="Submit">
+        </form>
     {% endif %}
 {% endblock %}
 

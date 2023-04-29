@@ -19,7 +19,6 @@ def login_required(f):
 
 # Check password strength
 def password_strength(password, username):
-    #TODO: check password strength according to 
     # https://learn.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/password-must-meet-complexity-requirements
     
     # Check if username is in password
@@ -50,3 +49,34 @@ def password_strength(password, username):
         return "Password should be longer than 8 characters."
     
     return True
+
+def generate_file(event):
+
+    # Change time format
+    event["dtstart"] = event["dtstart"].replace("-", "")
+    event["dtend"] = event["dtend"].replace("-", "")
+
+    # Create a ics file
+    f = open("unrelated/event.ics", mode="w")
+
+    # Beginning of the file
+    f.write('BEGIN:VCALENDAR\n'
+            'VERSION:2.0\n'
+            'PRODID:Event-creator\n'
+            'CALSCALE:GREGORIAN\n'
+            'METHOD:PUBLISH\n'
+            'BEGIN:VEVENT\n')
+    
+    #TODO insert data required for calendar to work
+    f.write(f'SUMMARY:{event["summary"]}\n'
+            f'DESCRIPTION:{event["description"]}\n'
+            f'DTSTART:{event["dtstart"]}\n'
+            f'DTEND:{event["dtend"]}\n')
+    
+    f.write('END:VEVENT\n'
+            'END:VCALENDAR')
+
+    # Close file
+    f.close()
+
+    return
