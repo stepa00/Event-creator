@@ -1,6 +1,6 @@
 import sqlite3 
 
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, send_file
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import password_strength, login_required, generate_file
@@ -8,7 +8,7 @@ from helpers import password_strength, login_required, generate_file
 
 # Configure application
 app = Flask(__name__)
-app.debug = True
+
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
@@ -44,10 +44,8 @@ def index():
         event["dtstart"] = request.form.get("dtstart")
         event["dtend"] = request.form.get("dtend")
         event["description"] = request.form.get("description")
-        print(event)
         generate_file(event)
-
-        return render_template("index.html")
+        return send_file("ics_output/event.ics", as_attachment=True)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -170,4 +168,4 @@ def logout():
     return redirect("/")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

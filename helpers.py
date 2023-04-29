@@ -57,7 +57,7 @@ def generate_file(event):
     event["dtend"] = event["dtend"].replace("-", "")
 
     # Create a ics file
-    f = open("unrelated/event.ics", mode="w")
+    f = open("ics_output/event.ics", mode="w")
 
     # Beginning of the file
     f.write('BEGIN:VCALENDAR\n'
