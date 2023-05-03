@@ -54,7 +54,12 @@ def generate_file(event):
 
     # Change time format
     event["dtstart"] = event["dtstart"].replace("-", "")
+    event["dtstart"] = event["dtstart"].replace(":", "")
+    event["dtstart"] = event["dtstart"] + "00Z"
     event["dtend"] = event["dtend"].replace("-", "")
+    event["dtend"] = event["dtend"].replace(":", "")
+    event["dtend"] = event["dtend"] + "00Z"
+
 
     # Create a ics file
     f = open("ics_output/event.ics", mode="w")
@@ -80,3 +85,5 @@ def generate_file(event):
     f.close()
 
     return
+
+# TODO:Save event to sql
