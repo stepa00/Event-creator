@@ -38,7 +38,7 @@ def password_strength(password, username):
     if not (any(char.isdigit() for char in password)):
         return "Password should include digits."
     
-    # Check if has special charcters
+    # Check if has special characters
     special_characters = ['~','!','@','#','$','%','^','&','*','_','-',
                           '+','=','`','|','\\','(',')','{','}','[',']',
                           ':',';','"',"'",'<','>',',','.','?','/']

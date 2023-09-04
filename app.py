@@ -80,7 +80,7 @@ def login():
             return render_template("login.html", error=error)
         
         # Remember which user has logged in
-        session["user_id"] = row[0]
+        session["user_id"] = row[1]
 
         return redirect("/")
 
