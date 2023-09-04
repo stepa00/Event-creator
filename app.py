@@ -3,7 +3,7 @@ import sqlite3
 from flask import Flask, flash, redirect, render_template, request, session, send_file
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import password_strength, login_required, generate_file
+from helpers import password_strength, login_required, generate_file, event_save_sql
 
 
 # Configure application
@@ -38,13 +38,9 @@ def index():
         return render_template("index.html")
     # Reached via POST
     else:
-        # Get form inputs
-        event = {}
-        event["summary"] = request.form.get("summary")
-        event["dtstart"] = request.form.get("dtstart")
-        event["dtend"] = request.form.get("dtend")
-        event["description"] = request.form.get("description")
-        generate_file(event)
+        if session["user_id"]:
+            event_save_sql(session["user_id"])
+        generate_file()
         return send_file("ics_output/event.ics", as_attachment=True)
 
 @app.route("/login", methods=["GET", "POST"])
@@ -54,7 +50,6 @@ def login():
     session.clear()
 
     error = None
-    # TODO: create a login page
     # Reached via GET
     if request.method == "GET":
         return render_template("login.html")
@@ -110,7 +105,7 @@ def register():
             error = "Enter username."
             return render_template("register.html", error=error)
         
-        # Check username existance in database
+        # Check username existence in database
         cursor.execute("""SELECT * FROM users WHERE username = ?""", (username,))
         row = cursor.fetchone()
         if row:
@@ -125,7 +120,6 @@ def register():
         # Check password strength
         check = password_strength(password, username)
         if check != True:
-            # TODO: add discription
             error = check
             return render_template("register.html", error=error)
         
@@ -145,13 +139,16 @@ def register():
 
 
 @app.route("/history")
+@login_required
 def history():
     # TODO: create history of events 
-    # make a button to recreaet an old event
+    # make a button to recreate an old event
+
     return render_template("history.html")
 
 
 @app.route("/settings")
+@login_required
 def settings():
     # TODO: create settings with password change
     # and deleting the history of events

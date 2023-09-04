@@ -12,11 +12,13 @@
             <lable for="summary">Summary</lable>
             <input type="text" autocomplete="off" autofocus="off" id="summary" name="summary" placeholder="Summary">
             <lable for="dtstart">Start date</lable>
-            <input type="date" id="dtstart" name="dtstart">
-            <lable for="dtend">Start date</lable>
-            <input type="date" id="dtend" name="dtend">
+            <input type="datetime-local" id="dtstart" name="dtstart">
+            <lable for="dtend">End date</lable>
+            <input type="datetime-local" id="dtend" name="dtend">
             <lable for="description">Description</lable>
             <input type="text" autocomplete="off" autofocus="off" id="description" name="description" placeholder="Description">
+            <lable for="location">Location</lable>
+            <input type="text" autocomplete="off" autofocus="off" id="autocomplete" name="location" placeholder="Location">
             <input type="submit" value="Submit">
         </form>
     {% else %}
@@ -31,8 +33,38 @@
             <input type="datetime-local" id="dtend" name="dtend">
             <lable for="description">Description</lable>
             <input type="text" autocomplete="off" autofocus="off" id="description" name="description" placeholder="Description">
+            <lable for="location">Location</lable>
+            <input type="text" autocomplete="off" autofocus="off" id="autocomplete" name="location" placeholder="Location">
             <input type="submit" value="Submit">
         </form>
+
+        <script>
+            let autocomplete
+            function initAutocomplete() {
+                autocomplete = new google.maps.places.Autocomplete(
+                    document.getElementById('autocomplete'),
+                    {
+                        type: ['address'],
+                        fields: ['formatted_address', 'geometry']
+                    });
+                autocomplete.addListener('place_changed', onPlaceChanged);
+            }
+
+            function onPlaceChanged() {
+                var place = autocomplete.getPlace();
+                console.log(place.geometry.location.lat());
+                console.log(place.geometry.location.lng());
+
+                if (!place.geometry) {
+                    // User did not select a prediction; reset the input field
+                    document.getElementById('autocomplete').placeholder = 'Enter a place';
+                } else {
+                    // Display details about the valid place
+                    document.getElementById('autocomplete').innerHTML = place.formatted_address;
+                }
+            }
+        </script>
+
     {% endif %}
 {% endblock %}
 

@@ -1,4 +1,5 @@
 from functools import wraps
+import sqlite3
 
 from flask import redirect, render_template, request, session
 
@@ -50,7 +51,15 @@ def password_strength(password, username):
     
     return True
 
-def generate_file(event):
+def generate_file():
+
+    event = {}
+    # Request data from the form
+    event["summary"] = request.form.get("summary")
+    event["dtstart"] = request.form.get("dtstart")
+    event["dtend"] = request.form.get("dtend")
+    event["description"] = request.form.get("description")
+    event["location"] = request.form.get("location")
 
     # Change time format
     event["dtstart"] = event["dtstart"].replace("-", "")
@@ -76,7 +85,8 @@ def generate_file(event):
     f.write(f'SUMMARY:{event["summary"]}\n'
             f'DESCRIPTION:{event["description"]}\n'
             f'DTSTART:{event["dtstart"]}\n'
-            f'DTEND:{event["dtend"]}\n')
+            f'DTEND:{event["dtend"]}\n'
+            f'LOCATION:{event["location"]}\n')
     
     f.write('END:VEVENT\n'
             'END:VCALENDAR')
@@ -87,3 +97,41 @@ def generate_file(event):
     return
 
 # TODO:Save event to sql
+def event_save_sql(username):
+
+    event = event_collector()
+
+    connection = sqlite3.connect("calendars.db", check_same_thread=False)
+    cursor = connection.cursor()
+
+    cursor.execute("""INSERT INTO events (username, summary, description, dtstart, dtend, location) VALUES (?, ?, ?, ?, ?, ?)""",
+                   (username,
+                    event["summary"],
+                    event["description"],
+                    str(event["dtstart"]),
+                    str(event["dtend"]),
+                    event["location"]))
+    
+    connection.commit()
+
+    return
+
+def event_collector():
+
+    event = {}
+    # Request data from the form
+    event["summary"] = request.form.get("summary")
+    event["dtstart"] = request.form.get("dtstart")
+    event["dtend"] = request.form.get("dtend")
+    event["description"] = request.form.get("description")
+    event["location"] = request.form.get("location")
+
+    # Change time format
+    event["dtstart"] = event["dtstart"].replace("-", "")
+    event["dtstart"] = event["dtstart"].replace(":", "")
+    event["dtstart"] = event["dtstart"] + "00Z"
+    event["dtend"] = event["dtend"].replace("-", "")
+    event["dtend"] = event["dtend"].replace(":", "")
+    event["dtend"] = event["dtend"] + "00Z"
+
+    return event
