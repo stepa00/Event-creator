@@ -135,3 +135,14 @@ def event_collector():
     event["dtend"] = event["dtend"] + "00Z"
 
     return event
+
+def event_extractor(username):
+# Extract data from sqlite3 database into a list
+
+    connection = sqlite3.connect("calendars.db", check_same_thread=False)
+    cursor = connection.cursor()
+
+    cursor.execute("""SELECT id, summary, description, dtstart, dtend, location FROM events WHERE username = ?""", (username,))
+    rows = cursor.fetchall()
+
+    return rows
