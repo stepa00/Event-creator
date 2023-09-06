@@ -39,9 +39,10 @@ def index():
     # Reached via POST
     else:
         if session["username"]:
-            event_save_sql(session["username"])
+            event_save_sql(session)
         generate_file()
         return send_file("ics_output/event.ics", as_attachment=True)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -146,13 +147,13 @@ def history():
     return render_template("history.html", rows = rows)
         
 
-
 @app.route("/settings")
 @login_required
 def settings():
     # TODO: create settings with password change
     # and deleting the history of events
     return render_template("settings.html")
+
 
 @app.route("/change_password", methods=["POST"])
 @login_required
@@ -196,6 +197,7 @@ def change_password():
 
     return render_template("settings.html")
 
+
 @app.route("/change_username", methods=["POST"])
 @login_required
 def change_username():
@@ -216,6 +218,21 @@ def change_username():
     return render_template("settings.html")
 
 
+@app.route("/delete_account", methods=["POST"])
+def delete_account():
+    # Delete history
+    cursor.execute("""DELETE FROM events WHERE user_id = ?""", (session["user_id"],))
+    connection.commit()
+
+    # Delete account
+    cursor.execute("""DELETE FROM users WHERE id = ?""", (session["user_id"],))
+    connection.commit()
+
+    session.clear()
+
+    return render_template("login.html")
+
+
 @app.route("/logout")
 def logout():
 
@@ -224,6 +241,7 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")
+
 
 if __name__ == "__main__":
     app.run()

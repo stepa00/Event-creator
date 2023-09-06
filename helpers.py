@@ -51,6 +51,7 @@ def password_strength(password, username):
     
     return True
 
+
 def generate_file():
 
     event = {}
@@ -96,25 +97,27 @@ def generate_file():
 
     return
 
-# TODO:Save event to sql
-def event_save_sql(username):
+
+def event_save_sql(session):
 
     event = event_collector()
 
     connection = sqlite3.connect("calendars.db", check_same_thread=False)
     cursor = connection.cursor()
 
-    cursor.execute("""INSERT INTO events (username, summary, description, dtstart, dtend, location) VALUES (?, ?, ?, ?, ?, ?)""",
-                   (username,
+    cursor.execute("""INSERT INTO events (username, summary, description, dtstart, dtend, location, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                   (str(session["username"]),
                     event["summary"],
                     event["description"],
                     str(event["dtstart"]),
                     str(event["dtend"]),
-                    event["location"]))
+                    event["location"],
+                    session["user_id"]))
     
     connection.commit()
 
     return
+
 
 def event_collector():
 
@@ -135,6 +138,7 @@ def event_collector():
     event["dtend"] = event["dtend"] + "00Z"
 
     return event
+
 
 def event_extractor(username):
 # Extract data from sqlite3 database into a list
