@@ -47,8 +47,12 @@ Create web based application that will allow user to create and download event f
    - NO SUCH feature;
 
 3. WORK ON setttings menu;
+   - create a page;
+   - create buttons;
    - allow to change password;
    - delete account;
    - change name;
 
 4. Make a nice looking site.
+
+5. Create an admin?

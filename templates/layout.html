@@ -8,11 +8,11 @@
   </head>
   <body>
     <!-- Navigation for loged in users -->
-    {% if session["user_id"] %}
+    {% if session["username"] %}
       <nav class="topnav">
         <a class="active" href="/">Create event</a>
         <a href="/history">History</a>
-        <a href="/setting">Settings</a>
+        <a href="/settings">Settings</a>
         <a href="/logout">Logout</a>
       </nav>
     {% else %}
