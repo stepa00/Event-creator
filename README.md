@@ -54,5 +54,3 @@ Create web based application that will allow user to create and download event f
    - change name;
 
 4. Make a nice looking site.
-
-5. Create an admin?

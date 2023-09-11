@@ -5,24 +5,27 @@
 {% endblock %}
 
 {% block main %}
-    <!-- Change password -->
-    <form method="post" action="/change_password">
-        <lable for="old_password">Old password</lable>
-        <input type="password" autocomplete="off" id="old_password" name="old_password" placeholder="Old password">
-        <lable for="new_password">New password</lable>
-        <input type="password" autocomplete="off" id="new_password" name="new_password" placeholder="New password">
-        <lable for="conf_new_password">Confirm new password</lable>
-        <input type="password" autocomplete="off" id="conf_new_password" name="conf_new_password" placeholder="Confirm new password">
-        <input type="submit" value="Change password">
-    </form>
-    <!-- Change name -->
-    <form method="post" action="/change_username">
-        <lable for="new_username">New username</lable>
-        <input type="text" autocomplete="off" id="new_username" name="new_username" placeholder="New username">
-        <input type="submit" value="Change username">
-    </form>
-    <!-- Delete account -->
-    <form method="post" action="/delete_account">
-        <button type="submit", value="Delete account">Delete account</button>
-    </form>
+    <div class="center">
+        <h1>Settings</h1>
+        <!-- Change password -->
+        <form method="post" action="/change_password">
+            <lable for="old_password">Old password</lable><br>
+            <input type="password" autocomplete="off" id="old_password" name="old_password"><br>
+            <lable for="new_password">New password</lable><br>
+            <input type="password" autocomplete="off" id="new_password" name="new_password"><br>
+            <lable for="conf_new_password">Confirm new password</lable><br>
+            <input type="password" autocomplete="off" id="conf_new_password" name="conf_new_password"><br>
+            <input type="submit" value="Change password">
+        </form>
+        <!-- Change name -->
+        <form method="post" action="/change_username">
+            <lable for="new_username">New username</lable><br>
+            <input type="text" autocomplete="off" id="new_username" name="new_username"><br>
+            <input type="submit" value="Change username">
+        </form>
+        <!-- Delete account -->
+        <form method="post" action="/delete_account">
+            <input type="submit" value="Delete account">
+        </form>
+    </div>
 {% endblock %}

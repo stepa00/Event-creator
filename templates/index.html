@@ -5,39 +5,25 @@
 {% endblock %}
 
 {% block main %}
-    {% if session["username"] %}
-        <!-- Create a form for the event -->
-        Event form
-        <form action="\" method="post">
-            <lable for="summary">Summary</lable>
-            <input type="text" autocomplete="off" autofocus="off" id="summary" name="summary" placeholder="Summary">
-            <lable for="dtstart">Start date</lable>
-            <input type="datetime-local" id="dtstart" name="dtstart">
-            <lable for="dtend">End date</lable>
-            <input type="datetime-local" id="dtend" name="dtend">
-            <lable for="description">Description</lable>
-            <input type="text" autocomplete="off" autofocus="off" id="description" name="description" placeholder="Description">
-            <lable for="location">Location</lable>
-            <input type="text" autocomplete="off" autofocus="off" id="autocomplete" name="location" placeholder="Location">
-            <input type="submit" value="Submit">
-        </form>
-    {% else %}
-        <!-- Create a starting page -->
-        Starting page!!!
-        <form action="\" method="post">
-            <lable for="summary">Summary</lable>
-            <input type="text" autocomplete="off" autofocus="off" id="summary" name="summary" placeholder="Summary">
-            <lable for="dtstart">Start date</lable>
-            <input type="datetime-local" id="dtstart" name="dtstart">
-            <lable for="dtend">End date</lable>
-            <input type="datetime-local" id="dtend" name="dtend">
-            <lable for="description">Description</lable>
-            <input type="text" autocomplete="off" autofocus="off" id="description" name="description" placeholder="Description">
-            <lable for="location">Location</lable>
-            <input type="text" autocomplete="off" autofocus="off" id="autocomplete" name="location" placeholder="Location">
-            <input type="submit" value="Submit">
-        </form>
 
+    {% if session["username"] %}
+        <div class="center">
+            <h1>Create your event</h1>
+            <!-- Create a form for the event -->
+            <form action="\" method="post">
+                <lable for="summary">Summary</lable><br>
+                <input type="text" autocomplete="off" autofocus="off" id="summary" name="summary" placeholder="Name your event"><br>
+                <lable for="dtstart">Start date</lable><br>
+                <input type="datetime-local" id="dtstart" name="dtstart"><br>
+                <lable for="dtend">End date</lable><br>
+                <input type="datetime-local" id="dtend" name="dtend"><br>
+                <lable for="description">Description</lable><br>
+                <input type="text" autocomplete="off" autofocus="off" id="description" name="description" placeholder="Additional notes"><br>
+                <lable for="location">Location</lable><br>
+                <input type="text" autocomplete="off" autofocus="off" id="autocomplete" name="location" placeholder="Location"><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
         <script>
             let autocomplete
             function initAutocomplete() {
@@ -64,7 +50,13 @@
                 }
             }
         </script>
-
+    {% else %}
+        <!-- Create a starting page -->
+        <div class="center">
+            <h1>Hello, I am an Evert-Creator!</h1>
+            <p>I will form an <code class="code-box">.ics</code> file for your Outlook or iCalendar app.</p>
+            <p>Please, <a href="/login">Log In</a> or <a href="/register">Register</a> to generate your event file.</p>
+        </div>
     {% endif %}
 {% endblock %}
 
