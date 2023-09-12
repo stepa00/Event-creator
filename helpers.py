@@ -152,6 +152,7 @@ def event_extractor(username):
 
     return rows
 
+
 def format_time(date_time):
 # Change time formate to dd/mm/yyyy
     time = date_time[9:11] + ':' + date_time[11:13]

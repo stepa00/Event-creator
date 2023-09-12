@@ -21,16 +21,6 @@ connection = sqlite3.connect("calendars.db", check_same_thread=False)
 cursor = connection.cursor()
 
 
-# TODO: something about cashing. See if can function without it.
-@app.after_request
-def after_request(response):
-    """Ensure responses aren't cached"""
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    return response
-
-
 @app.route("/", methods=["GET", "POST"])
 def index():
     # Reached via GET
@@ -152,7 +142,6 @@ def history():
     for event in history:
         event[3] = format_time(event[3])
         event[4] = format_time(event[4])
-        
     return render_template("history.html", rows = history)
         
 
