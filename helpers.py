@@ -2,6 +2,7 @@ from functools import wraps
 import sqlite3
 
 from flask import redirect, render_template, request, session
+from datetime import datetime
 
 
 # Asks to login users without session 
@@ -150,3 +151,10 @@ def event_extractor(username):
     rows = cursor.fetchall()
 
     return rows
+
+def format_time(date_time):
+# Change time formate to dd/mm/yyyy
+    time = date_time[9:11] + ':' + date_time[11:13]
+    date = date_time[6:8] + '/' + date_time[4:6] + '/' + date_time[:4]
+    time_date = time + ' ' + date
+    return(time_date)

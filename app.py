@@ -3,7 +3,7 @@ import sqlite3
 from flask import Flask, flash, redirect, render_template, request, session, send_file
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import password_strength, login_required, generate_file, event_save_sql, event_extractor
+from helpers import password_strength, login_required, generate_file, event_save_sql, event_extractor, format_time
 
 
 # Configure application
@@ -143,8 +143,17 @@ def register():
 @app.route("/history", methods=["GET", "POST"])
 @login_required
 def history():
+
+    # Change time format for output
     rows = event_extractor(session["username"])
-    return render_template("history.html", rows = rows)
+    history = []
+    for row in rows:
+        history.append(list(row))
+    for event in history:
+        event[3] = format_time(event[3])
+        event[4] = format_time(event[4])
+        
+    return render_template("history.html", rows = history)
         
 
 @app.route("/settings")

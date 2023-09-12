@@ -5,21 +5,24 @@
 {% endblock %}
 
 {% block main %}
-    <table>
-        <tr>
-            <th>iD</th>
-            <th>Summary</th>
-            <th>Description</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Location 5</th>
-        </tr>
-        {% for row in rows %}
-        <tr>
-            {% for thing in row %}
-                <td>{{ thing }}</td>
+    <div class="center">
+        <h1>Events history</h1>
+        <table id="fancy_table">
+            <tr>
+                <th>Event id</th>
+                <th>Summary</th>
+                <th>Description</th>
+                <th>Starting date</th>
+                <th>Ending date</th>
+                <th>Location</th>
+            </tr>
+            {% for row in rows %}
+            <tr>
+                {% for thing in row %}
+                    <td>{{ thing }}</td>
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
+        </table>
+    </div>
 {% endblock %}

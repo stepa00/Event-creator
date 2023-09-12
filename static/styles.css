@@ -126,3 +126,20 @@ input[type=submit] {
   text-decoration: none;
   cursor: pointer;
 }
+
+#fancy_table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+#fancy_table th {
+  background-color: LightGray;
+}
+
+#fancy_table td, #fancy_table th {
+  border: 0.1vw solid slateblue;
+  padding: 0.5vw;
+}
+
+#fancy_table tr:hover {background-color: slateblue;}
